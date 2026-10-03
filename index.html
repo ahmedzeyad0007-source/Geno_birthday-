@@ -339,6 +339,25 @@ const config = {
       text: "انتي مش بس حبيبتي، انتي صاحبتي وسندي ومكاني اللي برتاح فيه. وأنا محظوظ بيكي.",
       btn: "آخر حاجة 👉"
     },
+        {
+      type: "reasons",
+      emoji: "💖",
+      title: "10 أسباب بحبك",
+      subtitle: "كل ما تدوس، هقولك سبب جديد 💭",
+      reasons: [
+        { emoji: "💫", text: "روحك" },
+        { emoji: "✨", text: "أسلوبك" },
+        { emoji: "🌟", text: "شخصيتك" },
+        { emoji: "💎", text: "صراحتك" },
+        { emoji: "🌹", text: "جمالك" },
+        { emoji: "👀", text: "عيونك" },
+        { emoji: "🧠", text: "عقلك" },
+        { emoji: "🌿", text: "طبيعيتك" },
+        { emoji: "💬", text: "كلامك" },
+        { emoji: "😄", text: "ضحكتك الحلوة" }
+      ],
+      btn: "خلصت.. يلا كمّل 👉"
+    },
     {
       emoji: "📜",
       title: "وهدية صغيرة...",
@@ -373,11 +392,62 @@ function tryMusic(){
 }
 
 function showScreen(i){
-  const s = config.screens[i];
+    const s = config.screens[i];
   const card = document.createElement('div');
   const isPoem = !!s.poem;
-  card.className = 'card' + (isPoem ? ' poem-card' : '');
+  const isReasons = s.type === 'reasons';
+  card.className = 'card' + (isPoem ? ' poem-card' : isReasons ? ' reasons-card' : '');
 
+  /* ---- صفحة 10 أسباب بحبك ---- */
+  if (isReasons){
+    card.innerHTML = `
+      <div class="emoji">${s.emoji}</div>
+      <h1 class="title">${s.title}</h1>
+      <p class="subtitle">${s.subtitle}</p>
+      <div class="reasons-scroll" id="reasonsScroll">
+        <div class="reason-empty">دوس على الزرار تحت عشان أقولك أول سبب 💕</div>
+      </div>
+      <div class="reason-counter" id="reasonCounter">0 / ${s.reasons.length}</div>
+      <button class="btn">يلا قولّي سبب ✨</button>
+    `;
+
+    let idx = 0;
+    const scroll  = card.querySelector('#reasonsScroll');
+    const counter = card.querySelector('#reasonCounter');
+    const btn     = card.querySelector('.btn');
+
+    btn.addEventListener('click', () => {
+      tryMusic();
+
+      if (idx < s.reasons.length){
+        if (idx === 0) scroll.innerHTML = '';
+
+        const r = s.reasons[idx];
+        const item = document.createElement('div');
+        item.className = 'reason-item';
+        item.innerHTML = `
+          <div class="reason-num">${idx + 1}</div>
+          <div class="reason-emoji">${r.emoji}</div>
+          <div class="reason-text">${r.text}</div>
+        `;
+        scroll.appendChild(item);
+        scroll.scrollTop = scroll.scrollHeight;
+
+        idx++;
+        counter.textContent = `${idx} / ${s.reasons.length}`;
+        btn.textContent = (idx === s.reasons.length) ? s.btn : 'سبب تاني ✨';
+      } else {
+        if (i + 1 < config.screens.length) showScreen(i + 1);
+        else showFinal();
+      }
+    });
+
+    stage.replaceChildren(card);
+    window.scrollTo({top:0, behavior:'instant'});
+    return;
+  }
+
+  /* ---- صفحة القصيدة ---- */
   if (isPoem){
     card.innerHTML = `
       <div class="emoji">${s.emoji}</div>
@@ -407,7 +477,6 @@ function showScreen(i){
   stage.replaceChildren(card);
   window.scrollTo({top:0, behavior:'instant'});
 }
-
 function showFinal(){
   const f = config.final;
   const card = document.createElement('div');
@@ -426,6 +495,94 @@ function showFinal(){
 }
 
 /* ---- قلوب طايرة في الخلفية ---- */
+    /* ===== صفحة الأسباب ===== */
+  .reasons-card{
+    max-height:92vh;
+    display:flex;
+    flex-direction:column;
+    padding:32px 22px 24px;
+  }
+  .reasons-card .emoji{
+    font-size:46px;
+    animation:pop .8s cubic-bezier(.2,1.6,.4,1) .1s both;
+  }
+  .reasons-card .title{
+    font-size:clamp(20px,4.5vw,26px);
+    margin:10px 0 4px;
+  }
+  .reasons-card .subtitle{
+    font-size:14px;
+    color:#c9b8d4;
+    margin-bottom:10px;
+    animation:fadeUp .7s ease .4s both;
+  }
+  .reasons-scroll{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    padding:8px 6px;
+    margin:12px 0 10px;
+    scroll-behavior:smooth;
+    scrollbar-width:thin;
+    scrollbar-color:var(--pink) rgba(255,255,255,.06);
+  }
+  .reasons-scroll::-webkit-scrollbar{width:7px;}
+  .reasons-scroll::-webkit-scrollbar-track{
+    background:rgba(255,255,255,.06);
+    border-radius:8px;
+  }
+  .reasons-scroll::-webkit-scrollbar-thumb{
+    background:linear-gradient(180deg,var(--pink),var(--purple));
+    border-radius:8px;
+  }
+  .reason-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 18px;
+    margin-bottom:10px;
+    border-radius:16px;
+    background:linear-gradient(135deg, rgba(255,77,141,.18), rgba(176,60,255,.18));
+    border:1px solid rgba(255,255,255,.18);
+    text-align:right;
+    animation:reasonIn .55s cubic-bezier(.2,1.4,.4,1) both;
+  }
+  @keyframes reasonIn{
+    from{opacity:0;transform:translateX(-30px) scale(.85);}
+    to{opacity:1;transform:none;}
+  }
+  .reason-num{
+    flex-shrink:0;
+    width:34px;height:34px;
+    border-radius:50%;
+    display:grid;place-items:center;
+    font-weight:900;font-size:15px;
+    background:linear-gradient(135deg,var(--pink),var(--purple));
+    box-shadow:0 6px 16px rgba(255,77,141,.5);
+  }
+  .reason-emoji{
+    font-size:22px;
+    flex-shrink:0;
+  }
+  .reason-text{
+    font-size:clamp(15px,3.8vw,17px);
+    font-weight:700;
+    color:#fff;
+  }
+  .reason-counter{
+    font-size:13px;
+    color:#c9b8d4;
+    letter-spacing:1px;
+    margin-bottom:8px;
+  }
+  .reason-empty{
+    text-align:center;
+    padding:34px 12px;
+    color:#a99bb3;
+    font-size:15px;
+    animation:hintPulse 2s ease-in-out infinite;
+  }
+
 const HEARTS = ['❤️','💖','💗','🌸','✨','💫','🤍'];
 function spawnHeart(){
   const h = document.createElement('div');
