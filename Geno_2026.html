@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>كل سنة وانتي طيبة يا جنى ❤️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink:#ff4d8d;
+    --purple:#b03cff;
+    --cyan:#22d3ee;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    min-height:100vh;
+    display:flex;
+    font-family:'Cairo','Segoe UI',Tahoma,sans-serif;
+    color:#fff;
+    background:linear-gradient(-45deg,#160726,#2d0a3d,#4a0f3d,#160726);
+    background-size:400% 400%;
+    animation:bgShift 20s ease infinite;
+    overflow-x:hidden;
+    padding:18px;
+    position:relative;
+  }
+  @keyframes bgShift{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
+
+  body::before,body::after{
+    content:"";position:fixed;border-radius:50%;filter:blur(90px);
+    opacity:.45;pointer-events:none;z-index:0;
+  }
+  body::before{width:340px;height:340px;background:var(--pink);top:-90px;right:-90px;animation:blob 12s ease-in-out infinite;}
+  body::after{width:300px;height:300px;background:var(--purple);bottom:-90px;left:-90px;animation:blob 15s ease-in-out infinite reverse;}
+  @keyframes blob{
+    0%,100%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(-30px,30px) scale(1.15);}
+  }
+
+  #stage{position:relative;z-index:2;margin:auto;width:100%;display:flex;justify-content:center;}
+
+  .card{
+    width:min(540px,94vw);
+    padding:44px 30px 38px;
+    border-radius:30px;
+    text-align:center;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.16);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    box-shadow:0 24px 70px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.2);
+    animation:cardIn .75s cubic-bezier(.2,.9,.25,1) both;
+  }
+  @keyframes cardIn{
+    from{opacity:0;transform:translateY(38px) scale(.9);filter:blur(10px);}
+    to{opacity:1;transform:none;filter:blur(0);}
+  }
+
+  .emoji{
+    font-size:64px;line-height:1;display:inline-block;
+    animation:pop .8s cubic-bezier(.2,1.6,.4,1) .15s both, floaty 3s ease-in-out 1s infinite;
+  }
+  @keyframes pop{from{opacity:0;transform:scale(0) rotate(-40deg);}to{opacity:1;transform:scale(1) rotate(0);}}
+  @keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+
+  .title{
+    font-size:clamp(22px,5vw,30px);
+    font-weight:900;
+    margin:18px 0 12px;
+    background:linear-gradient(90deg,#ffd1e5,#ff8fc0,#c9a3ff,#ffd1e5);
+    background-size:250% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:shine 5s linear infinite, fadeUp .7s ease .3s both;
+  }
+  @keyframes shine{to{background-position:250% 0;}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+
+  .text{
+    font-size:clamp(16px,4vw,19px);
+    line-height:1.9;
+    color:#f0e3f5;
+    animation:fadeUp .7s ease .45s both;
+  }
+
+  .btn{
+    margin-top:28px;
+    padding:15px 44px;
+    border:none;border-radius:999px;
+    font-family:inherit;font-size:18px;font-weight:700;color:#fff;
+    cursor:pointer;position:relative;overflow:hidden;
+    background:linear-gradient(135deg,var(--pink),var(--purple));
+    box-shadow:0 12px 32px rgba(255,77,141,.45);
+    transition:transform .25s, box-shadow .25s;
+    animation:fadeUp .7s ease .6s both;
+    flex-shrink:0;
+  }
+  .btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 18px 44px rgba(255,77,141,.65);}
+  .btn:active{transform:scale(.95);}
+  .btn::after{
+    content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+    transform:skewX(-20deg);
+  }
+  .btn:hover::after{animation:sheen .8s ease;}
+  @keyframes sheen{to{left:130%;}}
+
+  /* شاشة النهاية */
+  .final .big-heart{
+    font-size:96px;display:inline-block;
+    animation:beat 1.1s ease-in-out infinite;
+    filter:drop-shadow(0 0 24px rgba(255,77,141,.9));
+  }
+  @keyframes beat{
+    0%,100%{transform:scale(1);}
+    25%{transform:scale(1.18);}
+    40%{transform:scale(.98);}
+    60%{transform:scale(1.1);}
+  }
+
+  /* ===== كارت القصيدة ===== */
+  .poem-card{
+    max-height:92vh;
+    display:flex;
+    flex-direction:column;
+    padding:30px 22px 24px;
+  }
+  .poem-card .emoji{
+    font-size:46px;
+    animation:pop .8s cubic-bezier(.2,1.6,.4,1) .1s both;
+  }
+  .poem-card .title{
+    font-size:clamp(20px,4.5vw,26px);
+    margin:10px 0 4px;
+  }
+  .poem-card .subtitle{
+    font-size:14px;
+    color:#c9b8d4;
+    margin-bottom:12px;
+    animation:fadeUp .7s ease .4s both;
+  }
+  .poem-scroll{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    padding:16px 14px;
+    margin:6px 0 14px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:18px;
+    scroll-behavior:smooth;
+    scrollbar-width:thin;
+    scrollbar-color:var(--pink) rgba(255,255,255,.06);
+    animation:fadeUp .7s ease .5s both;
+  }
+  .poem-scroll::-webkit-scrollbar{width:8px;}
+  .poem-scroll::-webkit-scrollbar-track{
+    background:rgba(255,255,255,.06);
+    border-radius:8px;
+  }
+  .poem-scroll::-webkit-scrollbar-thumb{
+    background:linear-gradient(180deg,var(--pink),var(--purple));
+    border-radius:8px;
+  }
+  .poem-scroll::-webkit-scrollbar-thumb:hover{
+    background:linear-gradient(180deg,var(--purple),var(--pink));
+  }
+  .poem{
+    font-size:clamp(15px,3.7vw,17px);
+    line-height:2.1;
+    color:#f5e9fa;
+    text-align:center;
+    padding:4px 6px;
+    text-shadow:0 1px 6px rgba(0,0,0,.25);
+  }
+  .poem .stanza{
+    display:block;
+    margin-bottom:14px;
+  }
+  .poem .last{
+    display:block;
+    color:#ffd1e5;
+    font-weight:700;
+  }
+  .scroll-hint{
+    font-size:12px;
+    color:#a99bb3;
+    margin-bottom:6px;
+    animation:hintPulse 2s ease-in-out infinite;
+  }
+  @keyframes hintPulse{
+    0%,100%{opacity:.55;}
+    50%{opacity:1;}
+  }
+
+  /* القلوب الطايرة في الخلفية */
+  .heart{
+    position:fixed;bottom:-70px;z-index:1;pointer-events:none;
+    animation:rise linear forwards;
+  }
+  @keyframes rise{
+    0%{transform:translateY(0) rotate(0deg) scale(.7);opacity:0;}
+    10%{opacity:.9;}
+    90%{opacity:.9;}
+    100%{transform:translateY(-115vh) rotate(var(--rot)) scale(1.15);opacity:0;}
+  }
+
+  /* الكونفيتي */
+  .confetti{
+    position:fixed;top:-20px;z-index:5;pointer-events:none;border-radius:2px;
+    animation:fall linear forwards;
+  }
+  @keyframes fall{
+    0%{transform:translate3d(0,-10vh,0) rotate(0deg);opacity:1;}
+    80%{opacity:1;}
+    100%{transform:translate3d(var(--x),110vh,0) rotate(720deg);opacity:0;}
+  }
+</style>
+</head>
+<body>
+
+  <!-- لو عايز موسيقى: حط ملف اسمه music.mp3 جنب الملف ده، وشيل علامات التعليق
+  <audio id="bgm" src="music.mp3" loop></audio>
+  -->
+
+  <main id="stage"></main>
+
+<script>
+/* ============================================================
+   القصيدة
+   ============================================================ */
+const POEM = `
+  <span class="stanza">يا من إذا أقبلتْ تباهى الصبحُ مبتسمًا<br>كأنَّ نورَ الضحى من وجهِها اقتبسا</span>
+  <span class="stanza">يا من إذا نظرتْ عينايَ نحوَ عينيها<br>رأيتُ في عينيها للأرضِ ألفَ سما</span>
+  <span class="stanza">هي الجميلةُ، لا لأنَّ الناسَ قد شهدوا<br>بل لأنَّ قلبي رأى في حسنِها معجزةْ</span>
+  <span class="stanza">في وجهِها راحةٌ للروحِ أعرفها<br>كأنَّهُ موطنٌ للروحِ إن تعبا</span>
+  <span class="stanza">وعيناها حكاياتٌ بلا كتبٍ<br>فيهما من الليلِ سرٌّ ليس ينكشفُ</span>
+  <span class="stanza">وفيهما هدوءُ بحرٍ حينَ يسكنُهُ<br>ضوءُ النجومِ، فلا موجٌ ولا صخبُ</span>
+  <span class="stanza">إذا تبسَّمتْ رأيتُ الكونَ منطلقًا<br>من بعدِ عبوسِ أيّامٍ قد انكسرتْ</span>
+  <span class="stanza">حتى كأنَّ ابتسامًا واحدًا منها<br>يكفي ليزرعَ في أيّاميَ الشجرا</span>
+  <span class="stanza">ورمشُها حينَ يميلُ فوقَ ناظرها<br>شيءٌ يعلِّمُ قلبي كيفَ يزدادُ الهوى</span>
+  <span class="stanza">وحاجباها كقوسينٍ من الفنِّ قد<br>خطَّ الجمالُ عليهما سرًّا من السنا</span>
+  <span class="stanza">وخدُّها حينَ يبدو في صفاءِ ضحى<br>كأنَّ وردةَ صبحٍ فيه قد نمتِ</span>
+  <span class="stanza">وشعرُها حينَ تمضي الريحُ تداعبهُ<br>أراهُ ليلًا على كتفيها قد انسدلا</span>
+  <span class="stanza">وفي ملامحِها شيءٌ إذا حضرتْ<br>ضاعَ الكلامُ، ولم أدرِ بماذا أصفُ</span>
+  <span class="stanza">فكلُّ وصفٍ إليها قبلَ أوّلِهِ<br>يبدو قليلًا، ولو بالغتُ في الصفا</span>
+  <span class="stanza">ووجهُها ليس وجهًا فحسبْ، إنّما<br>نافذةٌ يتنفَّسُ فيها القلبُ إن تعبا</span>
+  <span class="stanza">كأنَّها حينَ ترفعُ طرفَها خجلًا<br>تقولُ للضوءِ: تمهّلْ، إنني هنا</span>
+  <span class="stanza">وحضورُها في المكانِ يغيّرُ صورتَهُ<br>حتى الجدارُ كأنَّهُ فرحٌ بدا</span>
+  <span class="stanza">والوردُ يخجلُ إن مرّتْ بقربِهِ<br>لأنَّ في خطوها للوردِ مزدهرا</span>
+  <span class="stanza">والبدرُ مهما سما يبقى لهُ أمدٌ<br>أمّا جمالُها فليس لهُ منتهى</span>
+  <span class="stanza">حتى النجومُ إذا أطلّتْ في السماءِ<br>أراها أمامَ جمالِها قد انحنتْ خجلًا</span>
+  <span class="stanza">يا أيها القلبُ، هل يكفيكَ من وصفٍ<br>أم كلما قلتَ بيتًا قلتَ: ما كفى؟</span>
+  <span class="stanza">كيفَ أختصرُ الجمالَ في قصيدةٍ<br>والجمالُ في تفاصيلِها قد سكنَا؟</span>
+  <span class="stanza">في صوتِها نبرةٌ تمضي إلى أذني<br>كأنَّها من هدوءِ الليلِ قد نُسجا</span>
+  <span class="stanza">وحينَ تنطقُ حرفًا ليس يشبهُها<br>أقولُ: حتى الحروفُ اليومَ قد زَهَرا</span>
+  <span class="stanza">وفي حديثِها لطفٌ لا شبيهَ لهُ<br>يمرُّ بالقلبِ مثلَ النسمةِ العطِرا</span>
+  <span class="stanza">وفي حيائها جمالٌ فوقَ كلِّ هوى<br>كأنَّ سترَ الفضائلِ زادها بهجا</span>
+  <span class="stanza">وليسَ حبّي لها وجهًا ولا صورةً<br>ولا جمالًا سيبقى وحدهُ سرّي</span>
+  <span class="stanza">أنا أحبُّ فيها قلبًا عرفتُ بهِ<br>معنى النقاءِ، ومعنى الصدقِ، والوفا</span>
+  <span class="stanza">وأحبُّ فيها حياءً لا يفارقُها<br>وأحبُّ فيها رجاءً نحوَ ربِّ سما</span>
+  <span class="stanza">وأحبُّ أنَّ الذي بيني وبينَها<br>لم يُرَدْ لهُ سوى بابٍ من الحلالِ هدى</span>
+  <span class="stanza">فنحنُ وإن طالَ بينَ القلبِ والقلبِ ما<br>من المسافاتِ، فاللهُ الذي علما</span>
+  <span class="stanza">قد علَّمَ القلبَ أن الحبَّ منزلةٌ<br>وأنَّ أجملَهُ ما صانهُ صاحبُهُ</span>
+  <span class="stanza">فلستُ أريدُ حبًّا نخجلُ منهُ إذا<br>مرَّ الزمانُ، ولا سرًّا بهِ نختفي</span>
+  <span class="stanza">أريدُ يومًا أقفُ أمامَ أبيها<br>وفي يديَّ دعاءٌ صادقٌ ويدا</span>
+  <span class="stanza">وأقولُ: يا عمَّ، جئتُ اليومَ طالبَها<br>على طريقِ الهدى، مستمسكًا بالأدبِ</span>
+  <span class="stanza">جئتُ أريدُ ابنتَكم زوجًا على سنةٍ<br>فيها المودّةُ والتقوى، وفيها الرضا</span>
+  <span class="stanza">أريدُ أن يصبحَ اسمُها إذا ذُكرتْ<br>في بيتيَ الزوجةَ الغاليةَ لا حُلما</span>
+  <span class="stanza">وأن أقولَ: هذه المرأةُ التي<br>أحببتُها، فصنتُ الحبَّ ثمَّ سعيتُ لها</span>
+  <span class="stanza">وأريدُ بعدَ ليالي الانتظارِ لنا<br>صباحَ عمرٍ من التوفيقِ قد بدأَ</span>
+  <span class="stanza">لا سرَّ بينَنا بعدَ اليومِ يربكُنا<br>ولا طريقًا سوى ما كانَ قد شرعا</span>
+  <span class="stanza">يا ليتَ ربّي يهيّئْ لنا من أمرنا<br>خيرًا، ويجمعْ على طاعةٍ شملَنا</span>
+  <span class="stanza">فالحبُّ عندي ليس قصّةَ لحظةٍ<br>بل وعدُ عمرٍ إذا بالخيرِ قد نضجا</span>
+  <span class="stanza">وإن سألتني: لماذا هي بالذاتِ؟<br>أقولُ: لأنَّ لها في القلبِ منزلةً</span>
+  <span class="stanza">لأنَّها حينَ تأتي لا أرى أحدًا<br>كأنَّ باقي الوجوهِ اليومَ قد احتجبا</span>
+  <span class="stanza">لأنَّ اسمَها إذا مرَّ في خاطري<br>هدأتْ ضوضاءُ هذا العالمِ الصاخبا</span>
+  <span class="stanza">لأنَّ قلبي، مع الأيامِ، يكتشفُ<br>أنَّ المحبّةَ ليستْ لحظةً عابرةً</span>
+  <span class="stanza">يا جنى، ويا قصةً ما زلتُ أكتبُها<br>بحبرِ شوقي، وبالدعواتِ في السحرِ</span>
+  <span class="stanza">قد طالَ بعدُكِ، لكنّي أقولُ لها<br>إنَّ اللقاءَ الجميلَ يأتي إذا قدرا</span>
+  <span class="stanza">كم ليلةٍ بتُّ أعدُّ نجمةً نجمةً<br>وأسألُ الليلَ: هل تراها كما أراها؟</span>
+  <span class="stanza">وكم صباحٍ مرَّ دونَ حديثِها<br>فكانَ ناقصَ ضوءٍ رغمَ أنوارهِ</span>
+  <span class="stanza">أشتاقُها، والاشتياقُ ليسَ كلمةً<br>بل نبضُ قلبٍ على أبوابِها طرقا</span>
+  <span class="stanza">وأفتقدُها، فيصيرُ الوقتُ ممتدًا<br>كأنَّ دقيقةَ بعدَها عمرٌ وما انقضى</span>
+  <span class="stanza">لكنني كلما ضاقتْ بيَ الذكرى<br>رفعتُ كفّي إلى الرحمنِ مبتهلًا</span>
+  <span class="stanza">وقلتُ: يا ربِّ إن كانتْ ليَ سكنًا<br>فاجمعْ لنا الخيرَ، لا تعجلْ لنا عجلا</span>
+  <span class="stanza">واليومَ ليسَ كسائرِ الأيامِ في فرحي<br>فاليومَ يومُ ميلادِ التي سكنتْ</span>
+  <span class="stanza">قلبي، وصارَ وجودُها في حياتيَ من<br>أجملِ الهدايا التي في العمرِ قد وهبتْ</span>
+  <span class="stanza">فكلُّ عامٍ وأنتِ بخيرٍ يا جنى<br>وكلُّ عامٍ وأنتِ الضحكةُ والأملُ</span>
+  <span class="stanza">كلُّ عامٍ ووجهُكِ الباسمُ ابتسامةٌ<br>يضيءُ أيّامَكِ مهما تعاقبَها</span>
+  <span class="stanza">كلُّ عامٍ وقلبُكِ الطاهرُ في فرحٍ<br>لا يعرفُ الحزنَ إلا ثمَّ ينصرفُ</span>
+  <span class="stanza">كلُّ عامٍ وأنتِ أقربُ إلى اللهِ في<br>دربِ الحياةِ، وفي أخلاقِكِ الشيمُ</span>
+  <span class="stanza">أسألُ إلهي لكِ أعوامَ فرحٍ<br>فيها السلامُ، وفيها الصحةُ، والنجحُ</span>
+  <span class="stanza">وأدعوه أن يكتبَ الأيامَ أجملَها<br>وأن ترى عينُكِ من دنياكِ ما تُحبُّ</span>
+  <span class="stanza">وأن يجيءَ لكِ العمرُ الجميلُ بما<br>ترجينَ من خيرِ أيّامٍ ومن أمنِ</span>
+  <span class="stanza">وأن يكونَ القادمُ الآتي من عمركِ<br>أوسعَ من كلِّ ما ترجينهُ الأملُ</span>
+  <span class="stanza">وإن كانَ لي في الحياةِ أمنيةٌ كبرى<br>فهي أن أراكِ يومًا في بيتيَ زوجةً</span>
+  <span class="stanza">فأحمدُ اللهَ أنَّ القلبَ بعدَ هوى<br>قد اختارَ دربًا من التقوى ومن أدبِ</span>
+  <span class="stanza">ويأتي يومُ ميلادكِ القادمُ يومًا<br>وليس بيني وبينَكِ بعدَ مسافاتِ</span>
+  <span class="stanza">أقولُ فيه: مضى الانتظارُ وانقضى<br>وصارَ قربُكِ في أيّامنا آيةً</span>
+  <span class="stanza">لكن إلى أن يجيءَ ذلكَ الموعدُ<br>سأحفظُ الودَّ، لا أرجو سوى الخيرِ</span>
+  <span class="stanza">وسيبقى حبُّكِ في قلبي على أملٍ<br>بأن يكونَ ختامُ الشوقِ بالحلالِ</span>
+  <span class="stanza">فيا أجملَ من مرَّتْ بهِ سنةٌ<br>ويا ألطفَ هديّةٍ جاءتْ مع العمرِ</span>
+  <span class="stanza">هذا نشيديَ في ميلادكِ أرفعهُ<br>دعاءَ قلبٍ يحبُّ الخيرَ لكِ دومًا</span>
+  <span class="stanza">كلُّ عامٍ وأنتِ أجملُ أمنيةٍ<br>وكلُّ عامٍ وقلبي فيكِ مبتهجُ</span>
+  <span class="stanza">وكلُّ عامٍ وأنتِ بخيرٍ يا جنى<br>عسى القادمُ من أعوامكِ يكونُ لنا</span>
+  <span class="stanza last">بابًا من الخيرِ، لا يُفتحُ إلا على<br>فرحٍ ورضا، ولقاءٍ طيّبٍ وحلالِ.</span>
+`;
+
+/* ============================================================
+   الإعدادات — غيّر الكلام من هنا
+   ============================================================ */
+const config = {
+  screens: [
+    {
+      emoji: "🎁",
+      title: "استني لحظة... في حاجة مستنياكي",
+      text: "عملتلك حاجة صغيرة مخصوص. مش هتاخد دقيقة، بس أوعدك هتعجبك وهتخطف قلبك 🥰",
+      btn: "يلا نبدأ ✨"
+    },
+    {
+      emoji: "🌸",
+      title: "أول حاجة...",
+      text: "من يوم ما دخلتي حياتي، كل حاجة بقت أحلى. حتى الأيام الصعبة بقت ليها طعم تاني.",
+      btn: "كمّل 👉"
+    },
+    {
+      emoji: "♥️",
+      title: "وتاني حاجة...",
+      text: "انتي يا جنى حياتي و نور عيني وكل ما بتمنى من ربنا.",
+      btn: "وكمان 👉"
+    },
+    {
+      emoji: "🤍",
+      title: "وتالت حاجة...",
+      text: "انتي مش بس حبيبتي، انتي صاحبتي وسندي ومكاني اللي برتاح فيه. وأنا محظوظ بيكي.",
+      btn: "آخر حاجة 👉"
+    },
+    {
+      emoji: "📜",
+      title: "وهدية صغيرة...",
+      text: "كتبتلك كام كلمة من قلبي. مش هتبقى زي الشعر الكبير، بس كلها منّي ليكي.",
+      btn: "افتح الهدية 🎁"
+    },
+    {
+      emoji: "✍️",
+      title: "قصيدة من قلبي ليكي",
+      subtitle: "اقريها على مهلك... خد وقتك فيها 💭",
+      poem: POEM,
+      btn: "خلصت... يلا آخر حاجة 👉"
+    }
+  ],
+  final: {
+    title: "كل سنة وانتي طيبة يا جنى ❤️",
+    text: "ربنا يخليكي ليا ويحقّقلك كل اللي بتتمنيه. وعقبال ١٠٠ سنة وإحنا نبقى مع بعض وبنحتفل في بيتنا 🎂✨",
+    btn: "من الأول 🔁"
+  }
+};
+
+/* ============================================================
+   المحرّك — مش محتاج تلمس حاجة تحت السطر ده
+   ============================================================ */
+const stage = document.getElementById('stage');
+
+let musicStarted = false;
+function tryMusic(){
+  if (musicStarted) return;
+  const m = document.getElementById('bgm');
+  if (m) { m.volume = 0.5; m.play().catch(()=>{}); musicStarted = true; }
+}
+
+function showScreen(i){
+  const s = config.screens[i];
+  const card = document.createElement('div');
+  const isPoem = !!s.poem;
+  card.className = 'card' + (isPoem ? ' poem-card' : '');
+
+  if (isPoem){
+    card.innerHTML = `
+      <div class="emoji">${s.emoji}</div>
+      <h1 class="title">${s.title}</h1>
+      <p class="subtitle">${s.subtitle || ''}</p>
+      <div class="scroll-hint">⬇ اسحب لتحت لقراءة الباقي ⬇</div>
+      <div class="poem-scroll">
+        <div class="poem">${s.poem}</div>
+      </div>
+      <button class="btn">${s.btn}</button>
+    `;
+  } else {
+    card.innerHTML = `
+      <div class="emoji">${s.emoji}</div>
+      <h1 class="title">${s.title}</h1>
+      <p class="text">${s.text}</p>
+      <button class="btn">${s.btn}</button>
+    `;
+  }
+
+  card.querySelector('.btn').addEventListener('click', () => {
+    tryMusic();
+    if (i + 1 < config.screens.length) showScreen(i + 1);
+    else showFinal();
+  });
+
+  stage.replaceChildren(card);
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+function showFinal(){
+  const f = config.final;
+  const card = document.createElement('div');
+  card.className = 'card final';
+  card.innerHTML = `
+    <div class="big-heart">❤️</div>
+    <h1 class="title">${f.title}</h1>
+    <p class="text">${f.text}</p>
+    <button class="btn">${f.btn}</button>
+  `;
+  card.querySelector('.btn').addEventListener('click', () => showScreen(0));
+  stage.replaceChildren(card);
+
+  burstConfetti();
+  setTimeout(burstConfetti, 900);
+}
+
+/* ---- قلوب طايرة في الخلفية ---- */
+const HEARTS = ['❤️','💖','💗','🌸','✨','💫','🤍'];
+function spawnHeart(){
+  const h = document.createElement('div');
+  h.className = 'heart';
+  h.textContent = HEARTS[Math.floor(Math.random() * HEARTS.length)];
+  h.style.left = Math.random() * 100 + 'vw';
+  h.style.fontSize = (14 + Math.random() * 22) + 'px';
+  h.style.setProperty('--rot', (Math.random() * 360 - 180) + 'deg');
+  const dur = 8 + Math.random() * 8;
+  h.style.animationDuration = dur + 's';
+  document.body.appendChild(h);
+  setTimeout(() => h.remove(), dur * 1000);
+}
+setInterval(spawnHeart, 750);
+for (let i = 0; i < 6; i++) setTimeout(spawnHeart, i * 250);
+
+/* ---- كونفيتي ---- */
+function burstConfetti(){
+  const colors = ['#ff4d8d','#ffd166','#8b5cf6','#22d3ee','#f97316','#ffffff'];
+  for (let i = 0; i < 110; i++){
+    const p = document.createElement('div');
+    p.className = 'confetti';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    p.style.width = (6 + Math.random() * 7) + 'px';
+    p.style.height = (10 + Math.random() * 10) + 'px';
+    p.style.setProperty('--x', (Math.random() * 240 - 120) + 'px');
+    p.style.animationDelay = (Math.random() * 1.2) + 's';
+    p.style.animationDuration = (2.6 + Math.random() * 2) + 's';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 7000);
+  }
+}
+
+/* ---- ابدأ ---- */
+showScreen(0);
+</script>
+</body>
+</html>
