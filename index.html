@@ -81,6 +81,12 @@
     color:#f0e3f5;
     animation:fadeUp .7s ease .45s both;
   }
+  .subtitle{
+    font-size:14px;
+    color:#c9b8d4;
+    margin-bottom:12px;
+    animation:fadeUp .7s ease .4s both;
+  }
   .btn{
     margin-top:28px;
     padding:15px 44px;
@@ -274,6 +280,73 @@
     font-size:15px;
     animation:hintPulse 2s ease-in-out infinite;
   }
+  /* ===== صفحة كلمة السر ===== */
+  .password-card{
+    padding:40px 26px 34px;
+  }
+  .password-card .emoji{
+    font-size:52px;
+  }
+  .password-input-wrap{
+    margin:22px 0 6px;
+  }
+  .password-input{
+    width:100%;
+    padding:16px 20px;
+    border-radius:16px;
+    border:2px solid rgba(255,255,255,.2);
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    font-family:inherit;
+    font-size:19px;
+    font-weight:700;
+    text-align:center;
+    outline:none;
+    transition:border .25s, box-shadow .25s, background .25s;
+    direction:rtl;
+  }
+  .password-input:focus{
+    border-color:var(--pink);
+    background:rgba(255,255,255,.12);
+    box-shadow:0 0 0 4px rgba(255,77,141,.2);
+  }
+  .password-input::placeholder{
+    color:#a99bb3;
+    font-weight:400;
+  }
+  .password-input-wrap.shake{
+    animation:shake .45s ease;
+  }
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    20%{transform:translateX(-10px);}
+    40%{transform:translateX(10px);}
+    60%{transform:translateX(-7px);}
+    80%{transform:translateX(5px);}
+  }
+  .password-msg{
+    min-height:26px;
+    font-size:15px;
+    font-weight:700;
+    margin-top:12px;
+    opacity:0;
+    transition:opacity .3s;
+  }
+  .password-msg.show{
+    opacity:1;
+    animation:fadeUp .4s ease;
+  }
+  .password-msg.error{ color:#ff8fa3; }
+  .password-msg.success{ color:#7ee787; }
+  /* ===== صفحة بحبك ===== */
+  .love-card .big-heart{
+    font-size:110px;
+    animation:beat 1.1s ease-in-out infinite, floaty 3s ease-in-out infinite;
+  }
+  .love-title{
+    font-size:clamp(22px,5.5vw,30px);
+    line-height:1.7;
+  }
   /* القلوب الطايرة في الخلفية */
   .heart{
     position:fixed;bottom:-70px;z-index:1;pointer-events:none;
@@ -449,6 +522,20 @@ const config = {
   final: {
     title: "كل سنة وانتي طيبة يا جينو ❤️",
     text: "ربنا يخليكي ليا ويحقّقلك كل اللي بتتمنيه. وعقبال ١٠٠ سنة وإحنا نبقى مع بعض وبنحتفل في بيتنا 🎂✨",
+    btn: "في حاجة أخيرة 👉"
+  },
+  password: {
+    emoji: "🔐",
+    title: "في حاجة أخيرة...",
+    subtitle: "اكتبي باسورد قلبي 🔑",
+    correct: ["جينو", "جني", "جنى", "geno"],
+    errorMsg: "هو انت مش عارفه باسورد قلبي؟ 🥺",
+    successMsg: "✅ صح! يلا نشوف المفاجأة...",
+    btn: "افتحي 🔓"
+  },
+  love: {
+    title: "انا بحبك اوي يا جينو",
+    text: "يا مفتاح قلبي ❤️",
     btn: "من الأول 🔁"
   }
 };
@@ -557,13 +644,118 @@ function showFinal(){
     <p class="text">${f.text}</p>
     <button class="btn">${f.btn}</button>
   `;
-  card.querySelector('.btn').addEventListener('click', () => showScreen(0));
+  card.querySelector('.btn').addEventListener('click', () => {
+    tryMusic();
+    showPassword();
+  });
   stage.replaceChildren(card);
 
   burstConfetti();
   setTimeout(burstConfetti, 900);
 }
 
+/* ============================================================
+   صفحة كلمة السر
+   ============================================================ */
+function showPassword(){
+  const p = config.password;
+  const card = document.createElement('div');
+  card.className = 'card password-card';
+  card.innerHTML = `
+    <div class="emoji">${p.emoji}</div>
+    <h1 class="title">${p.title}</h1>
+    <p class="subtitle">${p.subtitle}</p>
+    <div class="password-input-wrap" id="pwdWrap">
+      <input type="text" class="password-input" id="pwdInput" placeholder="اكتبي هنا..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+    </div>
+    <div class="password-msg" id="pwdMsg"></div>
+    <button class="btn" id="pwdBtn">${p.btn}</button>
+  `;
+
+  const wrap  = card.querySelector('#pwdWrap');
+  const input = card.querySelector('#pwdInput');
+  const msg   = card.querySelector('#pwdMsg');
+  const btn   = card.querySelector('#pwdBtn');
+
+  function normalize(str){
+    return str.trim().replace(/\s+/g, '').toLowerCase();
+  }
+
+  function checkPassword(){
+    const val = input.value;
+    if (!val || !val.trim()) return;
+
+    const norm = normalize(val);
+    const isCorrect = p.correct.some(c => normalize(c) === norm);
+
+    if (isCorrect){
+      msg.textContent = p.successMsg;
+      msg.className = 'password-msg show success';
+      input.disabled = true;
+      btn.disabled = true;
+      btn.style.opacity = '.6';
+      btn.style.pointerEvents = 'none';
+      setTimeout(showLove, 1000);
+    } else {
+      msg.textContent = p.errorMsg;
+      msg.className = 'password-msg show error';
+      input.value = '';
+      input.focus();
+
+      /* إعادة تشغيل حركة الاهتزاز */
+      wrap.classList.remove('shake');
+      void wrap.offsetWidth;
+      wrap.classList.add('shake');
+      setTimeout(() => wrap.classList.remove('shake'), 500);
+    }
+  }
+
+  btn.addEventListener('click', () => {
+    tryMusic();
+    checkPassword();
+  });
+
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter'){
+      e.preventDefault();
+      tryMusic();
+      checkPassword();
+    }
+  });
+
+  input.addEventListener('input', () => {
+    msg.classList.remove('show');
+  });
+
+  stage.replaceChildren(card);
+  window.scrollTo({top:0, behavior:'instant'});
+  setTimeout(() => input.focus(), 450);
+}
+
+/* ============================================================
+   صفحة "بحبك"
+   ============================================================ */
+function showLove(){
+  const l = config.love;
+  const card = document.createElement('div');
+  card.className = 'card final love-card';
+  card.innerHTML = `
+    <div class="big-heart">💖</div>
+    <h1 class="title love-title">${l.title}</h1>
+    <p class="text">${l.text}</p>
+    <button class="btn">${l.btn}</button>
+  `;
+  card.querySelector('.btn').addEventListener('click', () => showScreen(0));
+  stage.replaceChildren(card);
+
+  burstConfetti();
+  setTimeout(burstConfetti, 900);
+  setTimeout(burstConfetti, 1800);
+}
+
+/* ============================================================
+   قلوب + كونفيتي
+   ============================================================ */
 const HEARTS = ['❤️','💖','💗','🌸','✨','💫','🤍','🥰','🫶🏻','💘'];
 function spawnHeart(){
   const h = document.createElement('div');
