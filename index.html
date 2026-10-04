@@ -347,6 +347,42 @@
     font-size:clamp(22px,5.5vw,30px);
     line-height:1.7;
   }
+  /* ===== زرار الموسيقى ===== */
+  .music-toggle{
+    position:fixed;
+    top:20px;
+    left:20px;
+    z-index:100;
+    width:48px;height:48px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.22);
+    background:rgba(255,255,255,.1);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    color:#fff;
+    font-size:22px;
+    line-height:1;
+    padding:0;
+    cursor:pointer;
+    display:grid;
+    place-items:center;
+    box-shadow:0 8px 24px rgba(0,0,0,.35);
+    transition:transform .25s, background .25s, box-shadow .25s, border-color .25s;
+    font-family:inherit;
+  }
+  .music-toggle:hover{
+    transform:scale(1.1);
+    background:rgba(255,255,255,.18);
+    box-shadow:0 12px 32px rgba(255,77,141,.5);
+  }
+  .music-toggle:active{transform:scale(.9);}
+  .music-toggle.muted{
+    background:rgba(255,77,141,.18);
+    border-color:rgba(255,77,141,.5);
+  }
+  @media (max-width:400px){
+    .music-toggle{width:42px;height:42px;font-size:19px;top:14px;left:14px;}
+  }
   /* القلوب الطايرة في الخلفية */
   .heart{
     position:fixed;bottom:-70px;z-index:1;pointer-events:none;
@@ -372,6 +408,7 @@
 <body>
 
   <audio id="bgm" src="music.mp3" loop></audio>
+  <button class="music-toggle" id="musicToggle" aria-label="تشغيل الموسيقى">🔇</button>
 
   <main id="stage"></main>
 
@@ -544,12 +581,51 @@ const config = {
    المحرّك
    ============================================================ */
 const stage = document.getElementById('stage');
+const bgmEl = document.getElementById('bgm');
+const musicBtn = document.getElementById('musicToggle');
 
 let musicStarted = false;
+
 function tryMusic(){
   if (musicStarted) return;
-  const m = document.getElementById('bgm');
-  if (m) { m.volume = 0.5; m.play().catch(()=>{}); musicStarted = true; }
+  if (!bgmEl) return;
+  bgmEl.volume = 0.5;
+  bgmEl.play().then(() => {
+    musicStarted = true;
+    updateMusicBtn();
+  }).catch(()=>{});
+}
+
+function updateMusicBtn(){
+  if (!musicBtn || !bgmEl) return;
+  if (bgmEl.paused){
+    musicBtn.textContent = '🔇';
+    musicBtn.classList.add('muted');
+    musicBtn.setAttribute('aria-label', 'تشغيل الموسيقى');
+  } else {
+    musicBtn.textContent = '🔊';
+    musicBtn.classList.remove('muted');
+    musicBtn.setAttribute('aria-label', 'إيقاف الموسيقى');
+  }
+}
+
+if (musicBtn && bgmEl){
+  musicBtn.addEventListener('click', () => {
+    if (bgmEl.paused){
+      bgmEl.volume = 0.5;
+      bgmEl.play().then(() => {
+        musicStarted = true;
+        updateMusicBtn();
+      }).catch(()=>{});
+    } else {
+      bgmEl.pause();
+      updateMusicBtn();
+    }
+  });
+
+  bgmEl.addEventListener('play', updateMusicBtn);
+  bgmEl.addEventListener('pause', updateMusicBtn);
+  updateMusicBtn();
 }
 
 function showScreen(i){
@@ -702,7 +778,6 @@ function showPassword(){
       input.value = '';
       input.focus();
 
-      /* إعادة تشغيل حركة الاهتزاز */
       wrap.classList.remove('shake');
       void wrap.offsetWidth;
       wrap.classList.add('shake');
